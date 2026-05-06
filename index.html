@@ -2,59 +2,141 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tech Store</title>
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
-    body { font-family: Arial; padding: 16px; background: #f4f4f4; }
-    .card { background: white; padding: 14px; margin-bottom: 12px; border-radius: 12px; }
-    button { width: 100%; padding: 12px; border: 0; border-radius: 10px; background: #229ED9; color: white; font-size: 16px; }
-    input, textarea { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; }
+    body{
+      font-family: Arial;
+      background:#f4f4f4;
+      padding:15px;
+    }
+
+    .card{
+      background:white;
+      border-radius:15px;
+      padding:15px;
+      margin-bottom:15px;
+    }
+
+    h2{
+      margin-bottom:15px;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#27a7e7;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      box-sizing:border-box;
+    }
+
+    textarea{
+      height:100px;
+    }
   </style>
 </head>
+
 <body>
-  <h2>Продаж техніки</h2>
 
-  <div class="card">
-    <h3>iPhone 12</h3>
-    <p>128GB, гарний стан</p>
-    <b>12 500 грн</b><br><br>
-    <button onclick="order('iPhone 12')">Замовити</button>
-  </div>
+<h2>Продаж техніки</h2>
 
-  <div class="card">
-    <h3>MacBook Air M1</h3>
-    <p>8/256GB</p>
-    <b>24 000 грн</b><br><br>
-    <button onclick="order('MacBook Air M1')">Замовити</button>
-  </div>
+<div class="card">
+  <h3>iPhone 12</h3>
+  <p>128GB, гарний стан</p>
+  <b>12 500 грн</b>
+  <br><br>
+  <button onclick="order('iPhone 12')">
+    Замовити
+  </button>
+</div>
 
-  <h2>Заявка на ремонт</h2>
+<div class="card">
+  <h3>MacBook Air M1</h3>
+  <p>8/256GB</p>
+  <b>24 000 грн</b>
+  <br><br>
+  <button onclick="order('MacBook Air M1')">
+    Замовити
+  </button>
+</div>
 
-  <input id="name" placeholder="Ваше імʼя">
-  <input id="phone" placeholder="Телефон">
-  <input id="device" placeholder="Модель техніки">
-  <textarea id="problem" placeholder="Опишіть проблему"></textarea>
-  <button onclick="repair()">Надіслати заявку</button>
+<h2>Заявка на ремонт</h2>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
+<input id="name" placeholder="Ваше ім'я">
+<input id="phone" placeholder="Телефон">
+<input id="device" placeholder="Модель техніки">
 
-    function order(product) {
-      tg.sendData("Замовлення: " + product);
-    }
+<textarea id="problem"
+placeholder="Опишіть проблему"></textarea>
 
-    function repair() {
-      const data = {
-        type: "repair",
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        device: document.getElementById("device").value,
-        problem: document.getElementById("problem").value
-      };
+<br><br>
 
-      tg.sendData(JSON.stringify(data));
-    }
-  </script>
+<button onclick="repair()">
+  Надіслати заявку
+</button>
+
+<script>
+
+const tg = window.Telegram.WebApp;
+tg.ready();
+
+const botUsername = "StoreMax003_bot";
+
+function order(product){
+
+  const text =
+  encodeURIComponent("Хочу замовити: " + product);
+
+  tg.openTelegramLink(
+  "https://t.me/" + botUsername +
+  "?start=" + text);
+
+}
+
+function repair(){
+
+  const name =
+  document.getElementById("name").value;
+
+  const phone =
+  document.getElementById("phone").value;
+
+  const device =
+  document.getElementById("device").value;
+
+  const problem =
+  document.getElementById("problem").value;
+
+  const message =
+  "Заявка на ремонт\n\n" +
+  "Ім'я: " + name + "\n" +
+  "Телефон: " + phone + "\n" +
+  "Техніка: " + device + "\n" +
+  "Проблема: " + problem;
+
+  alert("Напишіть у бот для підтвердження заявки");
+
+  tg.openTelegramLink(
+  "https://t.me/" + botUsername);
+
+}
+
+</script>
+
 </body>
 </html>
