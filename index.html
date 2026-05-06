@@ -8,21 +8,25 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
+
     body{
       font-family: Arial;
-      background:#f4f4f4;
+      background:#121212;
+      color:white;
       padding:15px;
-    }
-
-    .card{
-      background:white;
-      border-radius:15px;
-      padding:15px;
-      margin-bottom:15px;
+      margin:0;
     }
 
     h2{
       margin-bottom:15px;
+    }
+
+    .card{
+      background:#1e1e1e;
+      border-radius:15px;
+      padding:15px;
+      margin-bottom:15px;
+      box-shadow:0 0 10px rgba(0,0,0,0.4);
     }
 
     button{
@@ -41,25 +45,35 @@
       padding:10px;
       margin-top:10px;
       border-radius:10px;
-      border:1px solid #ccc;
+      border:1px solid #444;
+      background:#2a2a2a;
+      color:white;
       box-sizing:border-box;
+      font-size:15px;
     }
 
     textarea{
       height:100px;
     }
+
+    b{
+      color:#4fc3f7;
+    }
+
   </style>
 </head>
 
 <body>
 
-<h2>Продаж техніки</h2>
+<h2>📱 Продаж техніки</h2>
 
 <div class="card">
   <h3>iPhone 12</h3>
   <p>128GB, гарний стан</p>
   <b>12 500 грн</b>
+
   <br><br>
+
   <button onclick="order('iPhone 12')">
     Замовити
   </button>
@@ -69,19 +83,24 @@
   <h3>MacBook Air M1</h3>
   <p>8/256GB</p>
   <b>24 000 грн</b>
+
   <br><br>
+
   <button onclick="order('MacBook Air M1')">
     Замовити
   </button>
 </div>
 
-<h2>Заявка на ремонт</h2>
+<h2>🛠 Заявка на ремонт</h2>
 
 <input id="name" placeholder="Ваше ім'я">
+
 <input id="phone" placeholder="Телефон">
+
 <input id="device" placeholder="Модель техніки">
 
-<textarea id="problem"
+<textarea
+id="problem"
 placeholder="Опишіть проблему"></textarea>
 
 <br><br>
@@ -103,8 +122,11 @@ function order(product){
   encodeURIComponent("Хочу замовити: " + product);
 
   tg.openTelegramLink(
-  "https://t.me/" + botUsername +
-  "?start=" + text);
+    "https://t.me/" +
+    botUsername +
+    "?start=" +
+    text
+  );
 
 }
 
@@ -122,17 +144,13 @@ function repair(){
   const problem =
   document.getElementById("problem").value;
 
-  const message =
-  "Заявка на ремонт\n\n" +
-  "Ім'я: " + name + "\n" +
-  "Телефон: " + phone + "\n" +
-  "Техніка: " + device + "\n" +
-  "Проблема: " + problem;
-
-  alert("Напишіть у бот для підтвердження заявки");
+  alert(
+    "Заявка створена. Напишіть у бот для підтвердження."
+  );
 
   tg.openTelegramLink(
-  "https://t.me/" + botUsername);
+    "https://t.me/" + botUsername
+  );
 
 }
 
