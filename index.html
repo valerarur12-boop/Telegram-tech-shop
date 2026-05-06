@@ -9,190 +9,162 @@
 
 <style>
 body{
-margin:0;
-padding:15px;
-background:#121212;
-color:white;
-font-family:Arial;
+  margin:0;
+  padding:15px;
+  background:#121212;
+  color:white;
+  font-family:Arial;
 }
 
 .banner{
-width:100%;
-height:180px;
-border-radius:25px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:42px;
-font-weight:bold;
-letter-spacing:5px;
-margin-bottom:25px;
-background:linear-gradient(135deg,#000,#111,#1f8fff);
-box-shadow:0 0 25px rgba(0,140,255,0.4);
+  width:100%;
+  height:180px;
+  border-radius:25px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:42px;
+  font-weight:bold;
+  letter-spacing:5px;
+  margin-bottom:25px;
+  background:linear-gradient(135deg,#000,#111,#1f8fff);
+  box-shadow:0 0 25px rgba(0,140,255,0.4);
 }
 
 .card{
-background:#1d1d1d;
-border-radius:20px;
-padding:15px;
-margin-bottom:20px;
-box-shadow:0 0 15px rgba(0,0,0,0.4);
+  background:#1d1d1d;
+  border-radius:20px;
+  padding:15px;
+  margin-bottom:20px;
 }
 
 .card img{
-width:100%;
-border-radius:15px;
-margin-bottom:15px;
+  width:100%;
+  border-radius:15px;
+  margin-bottom:15px;
 }
 
 .price{
-color:#2ea6ff;
-font-size:28px;
-font-weight:bold;
-margin-top:10px;
+  color:#2ea6ff;
+  font-size:28px;
+  font-weight:bold;
 }
 
 button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:15px;
-background:linear-gradient(135deg,#27a7e7,#006eff);
-color:white;
-font-size:17px;
-font-weight:bold;
-margin-top:15px;
-cursor:pointer;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:15px;
+  background:linear-gradient(135deg,#27a7e7,#006eff);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:15px;
 }
 
 input,textarea{
-width:100%;
-padding:14px;
-margin-top:12px;
-border-radius:14px;
-border:1px solid #444;
-background:#1f1f1f;
-color:white;
-box-sizing:border-box;
-font-size:15px;
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border-radius:14px;
+  border:1px solid #444;
+  background:#1f1f1f;
+  color:white;
+  box-sizing:border-box;
+  font-size:15px;
 }
 
 textarea{
-height:120px;
+  height:120px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="banner">
-TECHNOMAX
-</div>
+<div class="banner">TECHNOMAX</div>
 
 <h2>📱 Продаж техніки</h2>
 
 <div class="card">
-
-<img src="https://i.ibb.co/C31xKywd/photo-2026-04-06-15-25-48.jpg">
-
-<h2>MacBook Air M1</h2>
-
-<p>8/256GB</p>
-
-<div class="price">
-24 000 грн
-</div>
-
-<button onclick="orderProduct('MacBook Air M1')">
-🛒 Замовити
-</button>
-
+  <img src="https://i.ibb.co/C31xKywd/photo-2026-04-06-15-25-48.jpg">
+  <h2>MacBook Air M1</h2>
+  <p>8/256GB</p>
+  <div class="price">24 000 грн</div>
+  <button onclick="orderProduct('MacBook Air M1')">🛒 Замовити</button>
 </div>
 
 <h2>🛠 Заявка на ремонт</h2>
 
 <input id="name" placeholder="Ваше ім'я">
-
 <input id="phone" placeholder="Телефон">
-
 <input id="device" placeholder="Модель техніки">
-
 <textarea id="problem" placeholder="Опишіть проблему"></textarea>
 
-<button onclick="sendRepair()">
-🚀 Надіслати заявку
-</button>
+<button onclick="sendRepair()">🚀 Надіслати заявку</button>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.ready();
 
 async function orderProduct(product){
+  const response = await fetch("/api/send", {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      type:"order",
+      product:product
+    })
+  });
 
-const response = await fetch("/api/send",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-type:"order",
-product:product
-})
-});
+  const data = await response.json();
 
-const data = await response.json();
-
-if(response.ok){
-alert("✅ Замовлення відправлено");
-}else{
-alert("❌ " + data.error);
-}
-
+  if(response.ok){
+    alert("✅ Замовлення відправлено");
+  }else{
+    alert("❌ " + data.error);
+  }
 }
 
 async function sendRepair(){
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const device = document.getElementById("device").value;
+  const problem = document.getElementById("problem").value;
 
-const name = document.getElementById("name").value;
-const phone = document.getElementById("phone").value;
-const device = document.getElementById("device").value;
-const problem = document.getElementById("problem").value;
+  if(!name  !phone  !device || !problem){
+    alert("Заповніть всі поля");
+    return;
+  }
 
-if(!name  !phone  !device || !problem){
-alert("Заповніть всі поля");
-return;
-}
+  const response = await fetch("/api/send", {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      type:"repair",
+      name:name,
+      phone:phone,
+      device:device,
+      problem:problem
+    })
+  });
 
-const response = await fetch("/api/send",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-type:"repair",
-name:name,
-phone:phone,
-device:device,
-problem:problem
-})
-});
+  const data = await response.json();
 
-const data = await response.json();
+  if(response.ok){
+    alert("✅ Заявку відправлено");
 
-if(response.ok){
-
-alert("✅ Заявку відправлено");
-
-document.getElementById("name").value = "";
-document.getElementById("phone").value = "";
-document.getElementById("device").value = "";
-document.getElementById("problem").value = "";
-
-}else{
-
-alert("❌ " + data.error);
-
-}
-
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("device").value = "";
+    document.getElementById("problem").value = "";
+  }else{
+    alert("❌ " + data.error);
+  }
 }
 </script>
 
