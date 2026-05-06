@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tech Store</title>
+  <title>TECHNOMAX</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -17,6 +17,25 @@
       margin:0;
     }
 
+    .banner{
+      width:100%;
+      height:180px;
+      border-radius:20px;
+      background:linear-gradient(
+      135deg,
+      #0f0f0f,
+      #1f1f1f,
+      #27a7e7);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:42px;
+      font-weight:bold;
+      letter-spacing:5px;
+      margin-bottom:25px;
+      box-shadow:0 0 20px rgba(39,167,231,0.4);
+    }
+
     h2{
       margin-bottom:15px;
     }
@@ -27,6 +46,12 @@
       padding:15px;
       margin-bottom:15px;
       box-shadow:0 0 10px rgba(0,0,0,0.4);
+    }
+
+    img{
+      width:100%;
+      border-radius:12px;
+      margin-bottom:10px;
     }
 
     button{
@@ -65,19 +90,22 @@
 
 <body>
 
+<div class="banner">
+  TECHNOMAX
+</div>
+
 <h2>📱 Продаж техніки</h2>
 
 <div class="card">
 
   <img
-  src="https://i.ibb.co/C31xKywd/photo-2026-04-06-15-25-48.jpg"
-  style="width:100%; border-radius:12px; margin-bottom:10px;">
+  src="https://i.ibb.co/C31xKywd/photo-2026-04-06-15-25-48.jpg">
 
   <h3>iPhone</h3>
 
   <p>Гарний стан</p>
 
-  <b>Ціна</b>
+  <b>18 000 грн</b>
 
   <br><br>
 
@@ -88,8 +116,11 @@
 </div>
 
 <div class="card">
+
   <h3>MacBook Air M1</h3>
+
   <p>8/256GB</p>
+
   <b>24 000 грн</b>
 
   <br><br>
@@ -97,6 +128,7 @@
   <button onclick="order('MacBook Air M1')">
     Замовити
   </button>
+
 </div>
 
 <h2>🛠 Заявка на ремонт</h2>
@@ -127,7 +159,8 @@ const botUsername = "StoreMax003_bot";
 function order(product){
 
   const text =
-  encodeURIComponent("Хочу замовити: " + product);
+  encodeURIComponent(
+  "Хочу замовити: " + product);
 
   tg.openTelegramLink(
     "https://t.me/" +
@@ -140,25 +173,11 @@ function order(product){
 
 function repair(){
 
-  const name =
-  document.getElementById("name").value;
-
-  const phone =
-  document.getElementById("phone").value;
-
-  const device =
-  document.getElementById("device").value;
-
-  const problem =
-  document.getElementById("problem").value;
-
   alert(
-    "Заявка створена. Напишіть у бот для підтвердження."
-  );
+  "Напишіть у бот для підтвердження заявки");
 
   tg.openTelegramLink(
-    "https://t.me/" + botUsername
-  );
+  "https://t.me/" + botUsername);
 
 }
 
